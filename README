@@ -1,0 +1,17 @@
+fifty-four is a 54lines.com compliance checker.
+
+usage: fifty-four <file|->
+    
+    if '-' is passed as argv 1, fifty-four will read from stdin
+
+Exit Codes:
+      0) success
+     54) file exceeds 54 lines 
+     80) some line exceeds 80 characters
+    100) improper usage
+    111) temporary failure (typically argv 1 is not a file)
+
+Dependencies:
+    + Bourne Shell (/bin/sh)
+    + wc
+    + awk

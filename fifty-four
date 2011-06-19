@@ -1,0 +1,32 @@
+#!/bin/sh
+# @author: Matthew Story <matthewstory@gmail.com>
+# A 54lines compliance checker
+shout() { echo "$0: $*" >&2; }
+barf() { shout "$*"; exit 100; }
+safe() { "$@" || barf "cannot $*"; }
+usage() { echo "usage: $0 <file|->" >&2; exit 100; }
+
+# validate
+[ $# -lt 1 ] && usage
+
+lines=0
+check="$1"
+shift
+
+if [ "$check" = '-' ] 
+then
+    check='/dev/stdin'
+else
+    [ -f "$check" ] || barf "$check is not a file"
+fi
+
+# compliance check 
+while read line
+do
+    lines=$(expr $lines "+" 1)
+    [ $lines -gt 54 ] && exit 54 
+    [ $(echo -n $line | wc -m | awk '{ print $1 }') -gt 80 ] && exit 80
+done < "$check"
+
+# success
+exit 0
