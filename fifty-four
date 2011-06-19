@@ -23,9 +23,9 @@ fi
 # compliance check 
 while read line
 do
-    lines=$(expr $lines "+" 1)
-    [ $lines -gt 54 ] && exit 54 
-    [ $(echo -n $line | wc -m | awk '{ print $1 }') -gt 80 ] && exit 80
+    lines="$(expr "$lines" "+" 1)"
+    [ "$lines" -gt 54 ] && exit 54 
+    [ "$(echo -n "$line" | wc -m | awk '{ print $1 }')" -gt 80 ] && exit 80
 done < "$check"
 
 # success
