@@ -8,8 +8,7 @@
 
 # do the bulk of the work with awk
 exec awk '{
-    lines += 1
-    if (54 < lines) exit 54
+    if (54 < NR) exit 54
     gsub(/\t/,"        ",$0)
     if (80 < length($0)) exit 80
 }' "$@"
