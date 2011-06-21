@@ -1,5 +1,6 @@
 #!/bin/sh
 # @author: Matthew Story <matthewstory@gmail.com>
+#          William Baxter <web@superscript.com>
 # A 54lines compliance checker
 shout() { echo "$0: $*" >&2; }
 barf() { shout "$*"; exit 100; }
@@ -8,25 +9,15 @@ usage() { echo "usage: $0 <file|->" >&2; exit 100; }
 
 # validate
 [ $# -lt 1 ] && usage
-
-lines=0
-check="$1"
-shift
-
-if [ "$check" = '-' ] 
+if [ "$1" = '-' ]
 then
-    check='/dev/stdin'
+    shift
 else
-    [ -f "$check" ] || barf "$check is not a file"
+    [ -f "$1" ] || barf "$check is not a file"
 fi
-
-# compliance check 
-while read line
-do
-    lines="$(expr "$lines" "+" 1)"
-    [ "$lines" -gt 54 ] && exit 54 
-    [ "$(echo -n "$line" | wc -m | awk '{ print $1 }')" -gt 80 ] && exit 80
-done < "$check"
-
-# success
-exit 0
+exec awk '{
+    lines += 1
+    if (54 < lines) exit 54
+    gsub(/\t/,"        ",$0)
+    if (80 < length($0)) exit 80
+}' "$@"
