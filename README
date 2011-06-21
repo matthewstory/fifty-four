@@ -1,8 +1,8 @@
 fifty-four is a 54lines.com compliance checker.
 
-usage: fifty-four <file|->
+usage: fifty-four [ file ]
     
-    if '-' is passed as argv 1, fifty-four will read from stdin
+    if argv1 is not passed, fifty-four will read from stdin
 
 Exit Codes:
       0) success
@@ -13,5 +13,4 @@ Exit Codes:
 
 Dependencies:
     + Bourne Shell (/bin/sh)
-    + wc
     + awk
