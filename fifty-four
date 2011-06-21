@@ -1,20 +1,12 @@
 #!/bin/sh
-# @author: Matthew Story <matthewstory@gmail.com>
-#          William Baxter <web@superscript.com>
-# A 54lines compliance checker
-shout() { echo "$0: $*" >&2; }
-barf() { shout "$*"; exit 100; }
-safe() { "$@" || barf "cannot $*"; }
-usage() { echo "usage: $0 <file|->" >&2; exit 100; }
+# @authors: Matthew Story <matthewstory@gmail.com>
+#           William Baxter <web@superscript.com>
+# fifty-four -- a 54lines compliance checker 
+# validates a file passed via argv1 or reads from stdin
+[ $# -gt 1 ] && { echo "usage: $0 [ file ]" >&2; exit 100; }
+[ -z "$1" ] || { [ -f "$1" ] || { echo "$0: no file $1" >&2; exit 111; } }
 
-# validate
-[ $# -lt 1 ] && usage
-if [ "$1" = '-' ]
-then
-    shift
-else
-    [ -f "$1" ] || barf "$check is not a file"
-fi
+# do the bulk of the work with awk
 exec awk '{
     lines += 1
     if (54 < lines) exit 54
