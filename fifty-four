@@ -3,7 +3,7 @@
 #           William Baxter <web-54@superscript.com>
 # fifty-four -- a 54lines compliance checker 
 # validates a file passed via argv1 or reads from stdin
-[ $# -gt 1 ] && { echo "usage: $0 [ file ]" >&2; exit 100; }
+[ $# -gt 1 ] && { echo "$0: usage: $0 [ file ]" >&2; exit 100; }
 [ -z "$1" ] || { [ -f "$1" ] || { echo "$0: no file $1" >&2; exit 111; } }
 
 # do the bulk of the work with awk
